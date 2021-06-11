@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons'
 import logoFace from '../../assets/logoFace.png';
 import logoGoogle from '../../assets/logoGoogle.png';
-import logoFoguete from '../../assets/foguete.png'
 import styles from './styles';
+import api from '../../service/api';
 
 export default function LoginCadastro(){
 
 const navigation = useNavigation();
+signIn = async () => {
+    const response = await api.post('/auth', {
+      cpf: 'teste',
+      senha: 'teste',
+    });
+
+    const { user, token } = response.data;
+    console.log(token);
+}
+
+
 
 function navigateToPermitirLocalizacao(){
   navigation.navigate('PermitirLocalizacao');

@@ -1,7 +1,11 @@
 const [pool] = require('../../controllers/db')
 
+const authLogin = (request, response) => {
+  response.status(200).json('logou!');
+}
+
 const getUsers = (request, response) => {
-    pool.query('SELECT id,usuario,email FROM users ORDER BY id ASC', (error, results) => {
+    pool.query('SELECT id_cliente,nome,cpf,nascimento,foto FROM clientes ORDER BY id_cliente ASC', (error, results) => {
       if (error) {
         throw error
       }
@@ -12,7 +16,7 @@ const getUsers = (request, response) => {
   const getUserById = (request, response) => {
     const id = parseInt(request.params.id)
   
-    pool.query('SELECT id,usuario,email FROM users WHERE id = $1', [id], (error, results) => {
+    pool.query('SELECT id_cliente,nome,cpf,nascimento,foto FROM clientes WHERE id_cliente = $1', [id], (error, results) => {
       if (error) {
         throw error
       }
@@ -21,19 +25,20 @@ const getUsers = (request, response) => {
   }
 
   const createUser = (request, response) => {
-    const { usuario, senha, email } = request.body
-    if(usuario){
-    pool.query('INSERT INTO users (usuario, senha, email) VALUES ($1, $2, $3)', [usuario, senha, email], (error, results) => {
+    const { id_cliente, nome, cpf, nascimento, localizacao, foto, senha } = request.body
+    if(nome){
+    pool.query('INSERT INTO clientes (id_cliente,nome,cpf,nascimento,localizacao,foto,senha) VALUES ($1, $2, $3, $4, $5, $6, $7)', [id_cliente, nome, cpf, nascimento, localizacao, foto, senha], (error, results) => {
       if (error) {
-        throw error
+        response.status(201).send('Erro no banco, tente novamente mais tarde.')
       }
-      response.status(201).send(`[HELP] Usuário Helper adicionado: ${usuario}`)
+      response.status(201).send(`Usuário Help adicionado: ${nome}`)
     })
   }
 }
   
 
   module.exports = {
+    authLogin,
     getUsers,
     getUserById,
     createUser,
