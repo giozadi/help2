@@ -3,9 +3,10 @@ import { View, Text } from 'react-native';
 import styles from './styles';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
+import api from '../../service/api';
 
 signIn = async () => {
-  const response = await api.post('/auth', {
+  const response = await api.post('/login', {
     cpf: 'teste',
     senha: 'teste',
   });
@@ -17,20 +18,18 @@ signIn = async () => {
 export default function CadastroPerfil(){
   return(
     <View style={styles.container}>
-       <View style={styles.header}>
-         <Text style={styles.textHeader}>Help!</Text>
-        </View>
-        <Text style={styles.logoFoto}>FOTO</Text>
+   <View style={styles.logo}>
+        <Text style={styles.logoTextHelp}>Help!</Text>
+      </View>
+      
         <View style={styles.inputsPerfil}>
           <TextInput
-            id="senha"
             style={styles.inputPerfil}
             maxLength={21}
             placeholder="Login"
           />
 
         <TextInput
-            id="senha"
             style={styles.inputPerfil}
             placeholder="Senha"
             maxLength={21}
