@@ -1,7 +1,30 @@
 const [pool] = require('../../controllers/db')
+require("dotenv-safe").config();
 
 const authLogin = (request, response) => {
-  response.status(200).json('logou!');
+  const jwt = require('jsonwebtoken');
+  const cpf = request.body.cpf;
+  const senha = request.body.senha;
+
+  pool.query("SELECT id_cliente FROM clientes WHERE cpf = '"+cpf+"' AND senha = '"+senha+"'", (error, results) => {
+    if (error) {
+      throw error
+    }
+
+    if(results.rows.length === 0){
+      return response.json('Usuário ou senha invalido(s)!');
+    }
+
+    const [{ id_cliente}] = results.rows;
+    const id = 1;
+
+    const token = jwt.sign({ id }, process.env.SECRET, {
+    expiresIn: 1800 // expira em 30 minutos.
+    });
+  return response.json({ id: id, auth: true, token: token });
+  })
+
+
 }
 
 const getUsers = (request, response) => {

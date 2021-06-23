@@ -10,15 +10,7 @@ import api from '../../service/api';
 export default function LoginCadastro(){
 
 const navigation = useNavigation();
-signIn = async () => {
-    const response = await api.post('/auth', {
-      cpf: 'teste',
-      senha: 'teste',
-    });
 
-    const { user, token } = response.data;
-    console.log(token);
-}
 
 
 
